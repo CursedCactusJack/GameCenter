@@ -5,18 +5,20 @@ public class TicTacToe{
 
     private String[][] gameBoard = {{"1","2","3"},{"4","5","6"},{"7","8","9"}};
     private String spacesTaken;
-    private int turn;
+    private int turn; //can use a boolean here instead
     private boolean xWon;
     private boolean oWon;
+    private BufferedReader br;
 
-    public TicTacToe(){
+    public TicTacToe(BufferedReader br){
         spacesTaken = "";
         turn = 0;
         xWon = false;
         oWon = false;
+        this.br = br;
     }
 
-    public void startGame(BufferedReader br) throws Exception{
+    public void startGame() throws Exception{
         while(!(xWon ^ oWon) && spacesTaken.length() != 9){
             printBoard();
             

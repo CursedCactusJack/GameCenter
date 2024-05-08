@@ -2,15 +2,16 @@ import java.io.BufferedReader;
 import java.util.concurrent.TimeUnit;
 
 public class Hangman{
-     String hangman;
-     String phrase;
-     String emptyPhrase;
-     String lettersRight;
-     String lettersWrong;
-     boolean gameWon;
-     boolean gameLost;
+    private String hangman;
+    private String phrase;
+    private String emptyPhrase;
+    private String lettersRight;
+    private String lettersWrong;
+    private boolean gameWon;
+    private boolean gameLost;
+    private BufferedReader br;
 
-    public Hangman(){
+    public Hangman(BufferedReader br){
         hangman = "  __\n |  |\n    |\n    |\n    |\n    |\n____|__";
         phrase = "";
         emptyPhrase = "";
@@ -18,9 +19,10 @@ public class Hangman{
         lettersWrong = "";
         gameWon = false;
         gameLost = false;
+        this.br = br;
     }
 
-    public void startGame(BufferedReader br) throws Exception{
+    public void startGame() throws Exception{
         drawSpace();
         System.out.println("Enter the hangman phrase:");
         //make formatPhrases()
