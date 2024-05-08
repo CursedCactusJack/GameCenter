@@ -41,11 +41,13 @@ public class GameHub{
         gameInstance.startGame();
         
     }
+
     public static void playTicTacToe(BufferedReader br) throws Exception {
         TicTacToe gameInstance = new TicTacToe(br);
         gameInstance.startGame();
         
     }
+    
     public static void playBattleship(BufferedReader br) throws Exception {
         Battleship gameInstance = new Battleship(br);
         gameInstance.startGame();
