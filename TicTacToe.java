@@ -5,14 +5,14 @@ public class TicTacToe{
 
     private String[][] gameBoard = {{"1","2","3"},{"4","5","6"},{"7","8","9"}};
     private String spacesTaken;
-    private int turn; //can use a boolean here instead
+    private boolean p1turn;
     private boolean xWon;
     private boolean oWon;
     private BufferedReader br;
 
     public TicTacToe(BufferedReader br){
         spacesTaken = "";
-        turn = 0;
+        p1turn = false;
         xWon = false;
         oWon = false;
         this.br = br;
@@ -22,8 +22,7 @@ public class TicTacToe{
         while(!(xWon ^ oWon) && spacesTaken.length() != 9){
             printBoard();
             
-            String playerName = turn%2==1? "\"o\"":"\"x\"";
-            System.out.printf("Player %s,\nEnter a square number:\n",playerName);
+            System.out.printf("Player %s,\nEnter a square number:\n", p1turn? "\"o\"":"\"x\"");
             String imput = br.readLine();
             
             while(!validImput(imput)){    
@@ -37,7 +36,7 @@ public class TicTacToe{
             replaceOnBoard(Character.getNumericValue(imput.charAt(0)));
             isGameWon();
             printBoard();
-            turn++;
+            p1turn = !p1turn;
         }
 
         for(int i = 0; i < 50; i++)System.out.println();
@@ -68,7 +67,7 @@ public class TicTacToe{
     }
 
     private void replaceOnBoard(int num){
-        String mark = turn%2 == 0? "x" : "o";
+        String mark = !p1turn? "x" : "o";
         switch(num){
             case 1: gameBoard[0][0] = mark; break;
             case 2: gameBoard[0][1] = mark; break;

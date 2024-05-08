@@ -7,7 +7,7 @@ public class Battleship {
     private PlayerBoard player2;
     private boolean p1Won;
     private boolean p2Won;
-    private int turn;
+    private boolean p1turn;
     private BufferedReader br;
     private TimeUnit time;
     
@@ -17,7 +17,7 @@ public class Battleship {
         this.player2 = new PlayerBoard();
         p1Won = false;
         p2Won = false;
-        turn = 1;
+        p1turn = true;
         time = TimeUnit.SECONDS;
     }
 
@@ -27,7 +27,7 @@ public class Battleship {
             gameUI();
             p1Won = player2.isAllSunk();
             p2Won = player1.isAllSunk();
-            turn++;
+            p1turn = !p1turn;
         }
         if(p1Won){
             System.out.println("Player one won!!!");
@@ -88,7 +88,7 @@ public class Battleship {
             }else{
                 printBoard(player2.getOcean());
             }
-            turn++;
+            p1turn = !p1turn;
             try{time.sleep(1);
             }catch(InterruptedException e){System.out.println("Interrupted lol");}
         }
@@ -97,7 +97,7 @@ public class Battleship {
     public void gameUI() throws Exception{
         String coordinate = "";
         boolean valCoord = false;
-        if(turn%2 == 1){
+        if(p1turn){
             printBoard(player1.getViewOfOpponentsOcean());
             do{
                 System.out.println("\nPlayer one, please enter a valid coordinate:");
