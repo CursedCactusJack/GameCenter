@@ -2,13 +2,15 @@ import java.util.HashSet;
 
 public class PlayerBoard{
     private static int oceanDimension;
+    private String name;
     private char[][] ocean;
     private char[][] viewOfOpponentOcean;
     private Ship[] ships;
     private HashSet<String> occupiedSpaces;
     private HashSet<String> usedCoordinates;
     
-    public PlayerBoard(){
+    public PlayerBoard(String playerName){
+        setName(playerName);
         ships = new Ship[]{
             new Ship(2, "Destroyer"),
             new Ship(3, "Submarine"),
@@ -23,6 +25,9 @@ public class PlayerBoard{
     }
 
     //Encapsulating Methods - Getters:
+    public String getName(){
+        return name;
+    }
     public char[][] getOcean(){
         return ocean;
     }
@@ -49,6 +54,13 @@ public class PlayerBoard{
     }
 
     //Encapsulating Methods - Setters:
+    public void setName(String name){
+        if(name.matches("Player One") || name.matches("Player Two")){
+            this.name = name;
+        }else{
+            this.name = "DEFAULT%NAME";
+        }
+    }
     private void setOcean(char c){
         ocean = fillOcean(c);
     }
@@ -151,6 +163,7 @@ public class PlayerBoard{
             occupiedSpaces.add(c);
         }
     }
+    // ************************************************ //
     public boolean hitShip(String coord){
         return occupiedSpaces.contains(coord);
     }
@@ -161,6 +174,7 @@ public class PlayerBoard{
         
         viewOfOpponentOcean[r][c] = marker;
     }
+    // ************************************************ //
     public static void printOcean(char[][] ocean){
         System.out.print(" ");
         for(int i = 0; i < oceanDimension; i++){

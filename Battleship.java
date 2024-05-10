@@ -4,27 +4,29 @@ public class Battleship{
     private BufferedReader br;
     private PlayerBoard player1;
     private PlayerBoard player2;
-    //private boolean p1Won;
-    //private boolean p2Won;
-    //private boolean p1turn;
+    private boolean gameOver;
+    private int turn;
     //private final TimeUnit time = TimeUnit.SECONDS;
 
     public Battleship(BufferedReader br){
         this.br = br;
-        //p1Won = false;
-        //p2Won = false;
-        //p1turn = true;
+        gameOver = false;
+        turn = 1;
     }
 
     public void startGame()throws Exception{
-        System.out.println("1. Setting up board:");
         setBoardSize();
-        this.player1 = new PlayerBoard();
-        this.player2 = new PlayerBoard();
-        System.out.println("2. Setting up P1's ships:");
+        this.player1 = new PlayerBoard("Player One");
+        this.player2 = new PlayerBoard("Player Two");
         setupShips(player1);
-        System.out.println("3. Setting up P2's ships:");
         setupShips(player2);
+        while(!gameOver){
+            if(turn%2 == 1){
+                play(player1, player2);
+            }else{
+                play(player2, player1);
+            }
+        }
     }
     public void setBoardSize()throws Exception{
         String input = "";
@@ -80,5 +82,16 @@ public class Battleship{
             
             return isValidCoord && containValidOrientation;
         }
+    }
+    public void play(PlayerBoard player, PlayerBoard oppBoard) throws Exception{
+        String input = "";
+        boolean progressFurther = false;
+        System.out.println("Coordinates should be in the following format: Letter-Number");
+        do{
+            System.out.printf("%s, please enter a valid coordinate:\n", player.getName());
+            input = br.readLine();
+            progressFurther = PlayerBoard.isValidCoord(input);
+        }while(!progressFurther);
+        
     }
 }
