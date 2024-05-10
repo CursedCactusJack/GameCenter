@@ -12,11 +12,11 @@ public class PlayerBoard{
     public PlayerBoard(String playerName){
         setName(playerName);
         ships = new Ship[]{
-            new Ship(2, "Destroyer"),
+            new Ship(2, "Destroyer")/*,
             new Ship(3, "Submarine"),
             new Ship(3, "Cruiser"),
             new Ship(4, "Battleship"),
-            new Ship(5, "Carrier")
+            new Ship(5, "Carrier") */
         };
         setOcean('∽');
         setViewOfOpponentsOcean('∽');
@@ -44,13 +44,16 @@ public class PlayerBoard{
         return ships;
     }
     public Ship getShipAt(int i){
-        if(i > ships.length){
-            return ships[ships.length];
-        }else if(i < 0){
+        if(i >= ships.length-1){
+            return ships[ships.length-1];
+        }else if(i <= 0){
             return ships[0];
         }else{
             return ships[i];
         }
+    }
+    public int getNumShips(){
+        return ships.length;
     }
 
     //Encapsulating Methods - Setters:
@@ -163,15 +166,21 @@ public class PlayerBoard{
             occupiedSpaces.add(c);
         }
     }
+    
     // ************************************************ //
+    public void addCoordsToUsedList(String coord){
+        usedCoordinates.add(coord);
+    }
+    public boolean alreadyUsedCoord(String coord){
+        return usedCoordinates.contains(coord);
+    }
     public boolean hitShip(String coord){
         return occupiedSpaces.contains(coord);
     }
-    public void updateViewOfOpponentsBoard(PlayerBoard opponent, String coordinate){
-        char marker = opponent.hitShip(coordinate)? '!':'-';
-        int r = Character.getNumericValue(coordinate.charAt(0) - 65);
-        int c = Character.getNumericValue(coordinate.charAt(2) - 48);
-        
+    public void updateViewOfOpponentsBoard(PlayerBoard opponent, String coord){
+        char marker = opponent.hitShip(coord)? '!':'-';
+        int r = Character.getNumericValue(coord.charAt(0) - 17);
+        int c = Character.getNumericValue(coord.charAt(2));
         viewOfOpponentOcean[r][c] = marker;
     }
     // ************************************************ //

@@ -27,6 +27,7 @@ public class Battleship{
                 play(player2, player1);
             }
         }
+        turn++;
     }
     public void setBoardSize()throws Exception{
         String input = "";
@@ -47,7 +48,7 @@ public class Battleship{
         System.out.println("Enter a space followed by a V to position your ship vertically.");
         System.out.println("Enter a space followed by a H to position your ship horizontally.");
         System.out.println("Ex:   A-1 H");
-        for(int i = 0; i < 5; i++){
+        for(int i = 0; i < player.getNumShips(); i++){
             do{
                 do{
                     PlayerBoard.printOcean(player.getOcean());
@@ -83,15 +84,26 @@ public class Battleship{
             return isValidCoord && containValidOrientation;
         }
     }
-    public void play(PlayerBoard player, PlayerBoard oppBoard) throws Exception{
+    public void play(PlayerBoard player, PlayerBoard opponent) throws Exception{
         String input = "";
         boolean progressFurther = false;
         System.out.println("Coordinates should be in the following format: Letter-Number");
         do{
-            System.out.printf("%s, please enter a valid coordinate:\n", player.getName());
-            input = br.readLine();
-            progressFurther = PlayerBoard.isValidCoord(input);
+            do{
+                PlayerBoard.printOcean(player.getViewOfOpponentsOcean());
+                System.out.printf("%s, please enter a valid coordinate:\n", player.getName());
+                input = br.readLine();
+                progressFurther = PlayerBoard.isValidCoord(input);
+            }while(!progressFurther);
+            progressFurther = !player.alreadyUsedCoord(input);
+            if(progressFurther){
+                player.updateViewOfOpponentsBoard(opponent, input);
+                player.addCoordsToUsedList(input);
+                PlayerBoard.printOcean(player.getViewOfOpponentsOcean());
+                //when a hit occurs, update marker on ship
+                //when a marker on a ship is updated, check if sank
+                //when a ship is sank, check if game over
+            }
         }while(!progressFurther);
-        
     }
 }
