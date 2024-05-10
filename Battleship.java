@@ -1,4 +1,5 @@
 import java.io.BufferedReader;
+import java.util.concurrent.TimeUnit;
 
 public class Battleship{
     private BufferedReader br;
@@ -6,12 +7,12 @@ public class Battleship{
     private PlayerBoard player2;
     private boolean gameOver;
     private int turn;
-    //private final TimeUnit time = TimeUnit.SECONDS;
+    private final TimeUnit time = TimeUnit.SECONDS;
 
     public Battleship(BufferedReader br){
         this.br = br;
         gameOver = false;
-        turn = 1;
+        turn = 0;
     }
 
     public void startGame()throws Exception{
@@ -21,13 +22,19 @@ public class Battleship{
         setupShips(player1);
         setupShips(player2);
         while(!gameOver){
+            ++turn;
             if(turn%2 == 1){
                 play(player1, player2);
             }else{
                 play(player2, player1);
             }
+            gameOver = (player1.getAllShipsSunk() || player2.getAllShipsSunk());
         }
-        turn++;
+        if(player1.getAllShipsSunk()){
+            System.out.println("Player One won!");
+        }else{
+            System.out.println("Player Two won!");
+        }
     }
     public void setBoardSize()throws Exception{
         String input = "";
@@ -69,6 +76,8 @@ public class Battleship{
                     player.placeShipVertically(player.getShipAt(i), coord);
                     progressFurther = true;
                 }
+                PlayerBoard.printOcean(player.getOcean());
+                time.wait(1);
             }while(!progressFurther);
         }
     }
@@ -97,12 +106,15 @@ public class Battleship{
             }while(!progressFurther);
             progressFurther = !player.alreadyUsedCoord(input);
             if(progressFurther){
-                player.updateViewOfOpponentsBoard(opponent, input);
+                boolean hitShip = opponent.hitShip(input);
+                player.updateViewOfOpponentsBoard(opponent, input, hitShip);
                 player.addCoordsToUsedList(input);
                 PlayerBoard.printOcean(player.getViewOfOpponentsOcean());
-                //when a hit occurs, update marker on ship
-                //when a marker on a ship is updated, check if sank
-                //when a ship is sank, check if game over
+                if(hitShip){
+                    opponent.updateShips(input);
+                    opponent.updateGameStatus();
+                }
+                time.sleep(1);
             }
         }while(!progressFurther);
     }

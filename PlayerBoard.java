@@ -2,26 +2,30 @@ import java.util.HashSet;
 
 public class PlayerBoard{
     private static int oceanDimension;
+    private static char oceanMarker = '∽';
+    private static char opponentOceanMarker = '∽';
     private String name;
     private char[][] ocean;
     private char[][] viewOfOpponentOcean;
     private Ship[] ships;
     private HashSet<String> occupiedSpaces;
     private HashSet<String> usedCoordinates;
+    private boolean allShipsSunk;
     
     public PlayerBoard(String playerName){
         setName(playerName);
         ships = new Ship[]{
-            new Ship(2, "Destroyer")/*,
+            new Ship(2, "Destroyer"),
             new Ship(3, "Submarine"),
             new Ship(3, "Cruiser"),
             new Ship(4, "Battleship"),
-            new Ship(5, "Carrier") */
+            new Ship(5, "Carrier") 
         };
-        setOcean('∽');
-        setViewOfOpponentsOcean('∽');
+        setOcean(oceanMarker);
+        setViewOfOpponentsOcean(opponentOceanMarker);
         setOccupiedSpaces(new HashSet<String>());
         setUsedCoordinates(new HashSet<String>());
+        setAllShipsSunk(false);
     }
 
     //Encapsulating Methods - Getters:
@@ -55,6 +59,9 @@ public class PlayerBoard{
     public int getNumShips(){
         return ships.length;
     }
+    public boolean getAllShipsSunk(){
+        return allShipsSunk;
+    }
 
     //Encapsulating Methods - Setters:
     public void setName(String name){
@@ -75,6 +82,9 @@ public class PlayerBoard{
     }
     private void setUsedCoordinates(HashSet<String> usedCoordinates){
         this.usedCoordinates = usedCoordinates;
+    }
+    private void setAllShipsSunk(boolean allShipsSunk){
+        this.allShipsSunk = allShipsSunk;
     }
 
     //Encapsulating Methods - Static:
@@ -166,8 +176,6 @@ public class PlayerBoard{
             occupiedSpaces.add(c);
         }
     }
-    
-    // ************************************************ //
     public void addCoordsToUsedList(String coord){
         usedCoordinates.add(coord);
     }
@@ -177,13 +185,20 @@ public class PlayerBoard{
     public boolean hitShip(String coord){
         return occupiedSpaces.contains(coord);
     }
-    public void updateViewOfOpponentsBoard(PlayerBoard opponent, String coord){
-        char marker = opponent.hitShip(coord)? '!':'-';
+    public void updateViewOfOpponentsBoard(PlayerBoard opponent, String coord, boolean hitShip){
+        char marker = hitShip? '!':'-';
         int r = Character.getNumericValue(coord.charAt(0) - 17);
         int c = Character.getNumericValue(coord.charAt(2));
         viewOfOpponentOcean[r][c] = marker;
     }
-    // ************************************************ //
+    public void updateShips(String coord){
+        for(Ship s: ships){
+            if(!s.getIsSunk() && s.containsCoord(coord)){
+                s.updateSectionAsHit(coord);
+                s.updateSinkStatus();
+            }
+        }
+    }
     public static void printOcean(char[][] ocean){
         System.out.print(" ");
         for(int i = 0; i < oceanDimension; i++){
@@ -197,5 +212,12 @@ public class PlayerBoard{
             }
             System.out.println();
         }
+    }
+    public void updateGameStatus(){
+        boolean allShipsSunk = true;
+        for(Ship ship: ships){
+            allShipsSunk = (allShipsSunk && ship.getIsSunk());
+        }
+        setAllShipsSunk(allShipsSunk);
     }
 }
