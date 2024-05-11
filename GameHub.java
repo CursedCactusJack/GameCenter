@@ -6,6 +6,7 @@ public class GameHub{
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         String input = "";
         do{
+            printSpace();
             System.out.println(
                 "Enter the number of the game you would like to play:\n" +
                 "1. Hangman\n" +
@@ -36,18 +37,24 @@ public class GameHub{
         System.out.println("Thanks for playing!");
     }
 
-    public static void playHangman(BufferedReader br) throws Exception {
+    private static void playHangman(BufferedReader br) throws Exception {
         Hangman gameInstance = new Hangman(br);
         gameInstance.startGame();
     }
-
-    public static void playTicTacToe(BufferedReader br) throws Exception {
+    private static void playTicTacToe(BufferedReader br) throws Exception {
         TicTacToe gameInstance = new TicTacToe(br);
         gameInstance.startGame();
     }
-    
-    public static void playBattleship(BufferedReader br) throws Exception {
+    private static void playBattleship(BufferedReader br) throws Exception {
         Battleship gameInstance = new Battleship(br);
         gameInstance.startGame();
+    }
+
+    public static void printSpace(){
+        StringBuffer sb = new StringBuffer();
+        for(int i = 0; i < 50; i++){
+            sb.append("\n");
+        }
+        System.out.println(sb);
     }
 }
