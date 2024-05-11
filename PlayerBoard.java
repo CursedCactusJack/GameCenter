@@ -2,13 +2,20 @@ import java.util.HashSet;
 
 public class PlayerBoard{
     private static int oceanDimension;
+    private static final char oceanMarker = '-';
+    private static final char opponentOceanMarker = '-';
+    private static final char hitMarker = '!';
+    private static final char missMarker = '~';
+    private String name;
     private char[][] ocean;
     private char[][] viewOfOpponentOcean;
     private Ship[] ships;
     private HashSet<String> occupiedSpaces;
     private HashSet<String> usedCoordinates;
+    private boolean allShipsSunk;
     
-    public PlayerBoard(){
+    public PlayerBoard(String playerName){
+        setName(playerName);
         ships = new Ship[]{
             new Ship(2, "Destroyer"),
             new Ship(3, "Submarine"),
@@ -16,13 +23,17 @@ public class PlayerBoard{
             new Ship(4, "Battleship"),
             new Ship(5, "Carrier")
         };
-        setOcean('∽');
-        setViewOfOpponentsOcean('∽');
+        setOcean(oceanMarker);
+        setViewOfOpponentsOcean(opponentOceanMarker);
         setOccupiedSpaces(new HashSet<String>());
         setUsedCoordinates(new HashSet<String>());
+        setAllShipsSunk(false);
     }
 
     //Encapsulating Methods - Getters:
+    public String getName(){
+        return name;
+    }
     public char[][] getOcean(){
         return ocean;
     }
@@ -39,16 +50,29 @@ public class PlayerBoard{
         return ships;
     }
     public Ship getShipAt(int i){
-        if(i > ships.length){
-            return ships[ships.length];
-        }else if(i < 0){
+        if(i >= ships.length-1){
+            return ships[ships.length-1];
+        }else if(i <= 0){
             return ships[0];
         }else{
             return ships[i];
         }
     }
+    public int getNumShips(){
+        return ships.length;
+    }
+    public boolean getAllShipsSunk(){
+        return allShipsSunk;
+    }
 
     //Encapsulating Methods - Setters:
+    public void setName(String name){
+        if(name.matches("Player One") || name.matches("Player Two")){
+            this.name = name;
+        }else{
+            this.name = "DEFAULT%NAME";
+        }
+    }
     private void setOcean(char c){
         ocean = fillOcean(c);
     }
@@ -60,6 +84,9 @@ public class PlayerBoard{
     }
     private void setUsedCoordinates(HashSet<String> usedCoordinates){
         this.usedCoordinates = usedCoordinates;
+    }
+    private void setAllShipsSunk(boolean allShipsSunk){
+        this.allShipsSunk = allShipsSunk;
     }
 
     //Encapsulating Methods - Static:
@@ -151,15 +178,28 @@ public class PlayerBoard{
             occupiedSpaces.add(c);
         }
     }
+    public void addCoordsToUsedList(String coord){
+        usedCoordinates.add(coord);
+    }
+    public boolean alreadyUsedCoord(String coord){
+        return usedCoordinates.contains(coord);
+    }
     public boolean hitShip(String coord){
         return occupiedSpaces.contains(coord);
     }
-    public void updateViewOfOpponentsBoard(PlayerBoard opponent, String coordinate){
-        char marker = opponent.hitShip(coordinate)? '!':'-';
-        int r = Character.getNumericValue(coordinate.charAt(0) - 65);
-        int c = Character.getNumericValue(coordinate.charAt(2) - 48);
-        
+    public void updateViewOfOpponentsBoard(PlayerBoard opponent, String coord, boolean hitShip){
+        char marker = hitShip? hitMarker:missMarker;
+        int r = Character.getNumericValue(coord.charAt(0) - 17);
+        int c = Character.getNumericValue(coord.charAt(2));
         viewOfOpponentOcean[r][c] = marker;
+    }
+    public void updateShips(String coord){
+        for(Ship s: ships){
+            if(!s.getIsSunk() && s.containsCoord(coord)){
+                s.updateSectionAsHit(coord);
+                s.updateSinkStatus();
+            }
+        }
     }
     public static void printOcean(char[][] ocean){
         System.out.print(" ");
@@ -174,5 +214,12 @@ public class PlayerBoard{
             }
             System.out.println();
         }
+    }
+    public void updateGameStatus(){
+        boolean allShipsSunk = true;
+        for(Ship ship: ships){
+            allShipsSunk = (allShipsSunk && ship.getIsSunk());
+        }
+        setAllShipsSunk(allShipsSunk);
     }
 }

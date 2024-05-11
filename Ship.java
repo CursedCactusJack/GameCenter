@@ -1,4 +1,5 @@
 public class Ship {
+    private static final String hitMarker = "-";
     private int length;
     private String name;
     private String[] coords;
@@ -70,4 +71,22 @@ public class Ship {
 
     //Encapsulating Methods - Static:
     //Encapsulating Methods - Utility:
+    public boolean containsCoord(String coord){
+        return coord.contains(coord);
+    }
+    public void updateSectionAsHit(String coord){
+        for(int i = 0; i < length; i++){
+            if(coords[i].matches(coord)){
+                coords[i] = hitMarker;
+                break;
+            }
+        }
+    }
+    public void updateSinkStatus(){
+        boolean isSunk = true;
+        for(String coord: coords){
+            isSunk = (isSunk && coord.matches(hitMarker));
+        }
+        setIsSunk(isSunk);
+    }
 }

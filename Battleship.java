@@ -1,30 +1,40 @@
 import java.io.BufferedReader;
+import java.util.concurrent.TimeUnit;
 
 public class Battleship{
     private BufferedReader br;
     private PlayerBoard player1;
     private PlayerBoard player2;
-    //private boolean p1Won;
-    //private boolean p2Won;
-    //private boolean p1turn;
-    //private final TimeUnit time = TimeUnit.SECONDS;
+    private boolean gameOver;
+    private int turn;
+    private final TimeUnit time = TimeUnit.SECONDS;
 
     public Battleship(BufferedReader br){
         this.br = br;
-        //p1Won = false;
-        //p2Won = false;
-        //p1turn = true;
+        gameOver = false;
+        turn = 0;
     }
 
     public void startGame()throws Exception{
-        System.out.println("1. Setting up board:");
         setBoardSize();
-        this.player1 = new PlayerBoard();
-        this.player2 = new PlayerBoard();
-        System.out.println("2. Setting up P1's ships:");
+        this.player1 = new PlayerBoard("Player One");
+        this.player2 = new PlayerBoard("Player Two");
         setupShips(player1);
-        System.out.println("3. Setting up P2's ships:");
         setupShips(player2);
+        while(!gameOver){
+            ++turn;
+            if(turn%2 == 1){
+                play(player1, player2);
+            }else{
+                play(player2, player1);
+            }
+            gameOver = (player1.getAllShipsSunk() || player2.getAllShipsSunk());
+        }
+        if(player1.getAllShipsSunk()){
+            System.out.println("Player Two won!");
+        }else{
+            System.out.println("Player One won!");
+        }
     }
     public void setBoardSize()throws Exception{
         String input = "";
@@ -41,11 +51,13 @@ public class Battleship{
     public void setupShips(PlayerBoard player)throws Exception{
         String input = "";
         boolean progressFurther = false;
+        System.out.println("Game notes:");
         System.out.println("Coordinates should be in the following format: Letter-Number");
         System.out.println("Enter a space followed by a V to position your ship vertically.");
         System.out.println("Enter a space followed by a H to position your ship horizontally.");
+        System.out.printf("%s, please setup your ships.\n", player.getName());
         System.out.println("Ex:   A-1 H");
-        for(int i = 0; i < 5; i++){
+        for(int i = 0; i < player.getNumShips(); i++){
             do{
                 do{
                     PlayerBoard.printOcean(player.getOcean());
@@ -66,6 +78,8 @@ public class Battleship{
                     player.placeShipVertically(player.getShipAt(i), coord);
                     progressFurther = true;
                 }
+                PlayerBoard.printOcean(player.getOcean());
+                time.sleep(1);
             }while(!progressFurther);
         }
     }
@@ -80,5 +94,30 @@ public class Battleship{
             
             return isValidCoord && containValidOrientation;
         }
+    }
+    public void play(PlayerBoard player, PlayerBoard opponent) throws Exception{
+        String input = "";
+        boolean progressFurther = false;
+        System.out.println("Coordinates should be in the following format: Letter-Number");
+        do{
+            do{
+                PlayerBoard.printOcean(player.getViewOfOpponentsOcean());
+                System.out.printf("%s, please enter a valid coordinate:\n", player.getName());
+                input = br.readLine();
+                progressFurther = PlayerBoard.isValidCoord(input);
+            }while(!progressFurther);
+            progressFurther = !player.alreadyUsedCoord(input);
+            if(progressFurther){
+                boolean hitShip = opponent.hitShip(input);
+                player.updateViewOfOpponentsBoard(opponent, input, hitShip);
+                player.addCoordsToUsedList(input);
+                PlayerBoard.printOcean(player.getViewOfOpponentsOcean());
+                if(hitShip){
+                    opponent.updateShips(input);
+                    opponent.updateGameStatus();
+                }
+                time.sleep(1);
+            }
+        }while(!progressFurther);
     }
 }
