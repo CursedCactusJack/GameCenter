@@ -91,10 +91,12 @@ public class Battleship{
                 }
                 GameHub.printSpace();
                 PlayerBoard.printOcean(player.getOcean());
+                System.out.println();
+                System.out.println();
             }while(!progressFurther);
             isFirstAttemptAtPlacingShip = true;
         }
-        time.sleep(1);
+        time.sleep(2);
     }
     private boolean isValidCoordOrientation(String s){
         if(!s.contains(" ")){
@@ -131,11 +133,12 @@ public class Battleship{
                 player.addCoordsToUsedList(input);
                 GameHub.printSpace();
                 PlayerBoard.printOcean(player.getViewOfOpponentsOcean());
+                System.out.println();
                 if(hitShip){
                     opponent.updateShips(input);
                     opponent.updateGameStatus();
                 }
-                time.sleep(1);
+                time.sleep(2);
             }
         }while(!progressFurther);
     } 
@@ -184,11 +187,11 @@ class PlayerBoard{
     public PlayerBoard(String playerName){
         setName(playerName);
         ships = new Ship[]{
-            new Ship(2, "Destroyer"),
+            new Ship(2, "Destroyer")/*,
             new Ship(3, "Submarine"),
             new Ship(3, "Cruiser"),
             new Ship(4, "Battleship"),
-            new Ship(5, "Carrier")
+            new Ship(5, "Carrier")*/
         };
         setOcean(oceanMarker);
         setViewOfOpponentsOcean(opponentOceanMarker);
