@@ -19,27 +19,38 @@ public class Battleship{
         setBoardSize();
         this.player1 = new PlayerBoard("Player One");
         this.player2 = new PlayerBoard("Player Two");
+        GameHub.printSpace();
+        continueScreen(player1);
         setupShips(player1);
+        GameHub.printSpace();
+        continueScreen(player2);
         setupShips(player2);
         while(!gameOver){
             ++turn;
             if(turn%2 == 1){
+                GameHub.printSpace();
+                continueScreen(player1);
                 play(player1, player2);
             }else{
+                GameHub.printSpace();
+                continueScreen(player2);
                 play(player2, player1);
             }
             gameOver = (player1.getAllShipsSunk() || player2.getAllShipsSunk());
         }
+        GameHub.printSpace();
         if(player1.getAllShipsSunk()){
             System.out.println("Player Two won!");
         }else{
             System.out.println("Player One won!");
         }
+        time.sleep(3);
     }
-    public void setBoardSize()throws Exception{
+    private void setBoardSize()throws Exception{
         String input = "";
         boolean validDimension = false;
         do{
+            GameHub.printSpace();
             System.out.println("Enter a value between 6 and 8 for the size of the board:");
             input = br.readLine();
             validDimension = input.matches("[6-8]{1}");
@@ -48,23 +59,22 @@ public class Battleship{
         int dimension = Integer.parseInt(input);
         PlayerBoard.setOceanDimension(dimension);
     }
-    public void setupShips(PlayerBoard player)throws Exception{
+    private void setupShips(PlayerBoard player)throws Exception{
         String input = "";
         boolean progressFurther = false;
-        System.out.println("Game notes:");
-        System.out.println("Coordinates should be in the following format: Letter-Number");
-        System.out.println("Enter a space followed by a V to position your ship vertically.");
-        System.out.println("Enter a space followed by a H to position your ship horizontally.");
-        System.out.printf("%s, please setup your ships.\n", player.getName());
-        System.out.println("Ex:   A-1 H");
+        boolean isFirstAttemptAtPlacingShip = true;
+        
         for(int i = 0; i < player.getNumShips(); i++){
             do{
                 do{
-                    PlayerBoard.printOcean(player.getOcean());
-                    System.out.printf("Currently placing %s. This ship is %d units in length.\n", player.getShipAt(i).getName(), player.getShipAt(i).getLength());
-                    System.out.println("Please enter a valid coordinate, followed by a V or an H, to place a ship:");
+                    GameHub.printSpace();
+                    if(!isFirstAttemptAtPlacingShip){
+                        printShipPlacementGameNotes();
+                    }
+                    printShipPlacementUI(player, i);
                     input = br.readLine();
                     progressFurther = isValidCoordOrientation(input);
+                    isFirstAttemptAtPlacingShip = false;
                 }while(!progressFurther);
                 
                 progressFurther = false;
@@ -78,12 +88,14 @@ public class Battleship{
                     player.placeShipVertically(player.getShipAt(i), coord);
                     progressFurther = true;
                 }
+                GameHub.printSpace();
                 PlayerBoard.printOcean(player.getOcean());
-                time.sleep(1);
             }while(!progressFurther);
+            isFirstAttemptAtPlacingShip = true;
         }
+        time.sleep(1);
     }
-    public boolean isValidCoordOrientation(String s){
+    private boolean isValidCoordOrientation(String s){
         if(!s.contains(" ")){
             return false;
         }else{
@@ -95,22 +107,28 @@ public class Battleship{
             return isValidCoord && containValidOrientation;
         }
     }
-    public void play(PlayerBoard player, PlayerBoard opponent) throws Exception{
+    private void play(PlayerBoard player, PlayerBoard opponent) throws Exception{
         String input = "";
         boolean progressFurther = false;
-        System.out.println("Coordinates should be in the following format: Letter-Number");
+        boolean isFirstCoordinate = true;
+
         do{
             do{
-                PlayerBoard.printOcean(player.getViewOfOpponentsOcean());
-                System.out.printf("%s, please enter a valid coordinate:\n", player.getName());
+                GameHub.printSpace();
+                if(!isFirstCoordinate){
+                    printCoordSelectionGameNotes();
+                }
+                printCoordSelectionUI(player);
                 input = br.readLine();
                 progressFurther = PlayerBoard.isValidCoord(input);
+                isFirstCoordinate = false;
             }while(!progressFurther);
             progressFurther = !player.alreadyUsedCoord(input);
             if(progressFurther){
                 boolean hitShip = opponent.hitShip(input);
                 player.updateViewOfOpponentsBoard(opponent, input, hitShip);
                 player.addCoordsToUsedList(input);
+                GameHub.printSpace();
                 PlayerBoard.printOcean(player.getViewOfOpponentsOcean());
                 if(hitShip){
                     opponent.updateShips(input);
@@ -119,5 +137,31 @@ public class Battleship{
                 time.sleep(1);
             }
         }while(!progressFurther);
+    } 
+    private void continueScreen(PlayerBoard player)throws Exception{
+        System.out.printf("%s's turn. Please hit enter to continue:", player.getName());
+        br.readLine();
+    }
+    private void printShipPlacementGameNotes(){
+        System.out.println("Game Notes:");
+        System.out.println("Coordinates should be in the following format: Letter-Number");
+        System.out.println("Enter a space followed by a V to position your ship vertically.");
+        System.out.println("Enter a space followed by a H to position your ship horizontally.");
+        System.out.println("Ex:   A-1 H");
+        System.out.println();
+    }
+    private void printShipPlacementUI(PlayerBoard player, int i){
+        PlayerBoard.printOcean(player.getOcean());
+        System.out.printf("The %s is %d units long.\n", player.getShipAt(i).getName(), player.getShipAt(i).getLength());
+        System.out.printf("%s, please enter a valid coordinate to place it:\n", player.getName());
+    }
+    private void printCoordSelectionGameNotes(){
+        System.out.println("Game Notes:");
+        System.out.println("Coordinates should be in the following format: Letter-Number");
+        System.out.println();
+    }
+    private void printCoordSelectionUI(PlayerBoard player){
+        PlayerBoard.printOcean(player.getViewOfOpponentsOcean());
+        System.out.printf("%s, please enter a valid coordinate:\n", player.getName());
     }
 }

@@ -66,7 +66,7 @@ public class PlayerBoard{
     }
 
     //Encapsulating Methods - Setters:
-    public void setName(String name){
+    private void setName(String name){
         if(name.matches("Player One") || name.matches("Player Two")){
             this.name = name;
         }else{
@@ -155,7 +155,7 @@ public class PlayerBoard{
             ocean[row][column] = 'O';
         }
     }
-    public String[] generateHorizontalCoords(Ship s, String coord){
+    private String[] generateHorizontalCoords(Ship s, String coord){
         String[] coords = new String[s.getLength()];
         for(int i = 0; i < coords.length; i++){
             String row = coord.substring(0,1);
@@ -164,7 +164,7 @@ public class PlayerBoard{
         }
         return coords;
     }
-    public String[] generateVerticalCoords(Ship s, String coord){
+    private String[] generateVerticalCoords(Ship s, String coord){
         String[] coords = new String[s.getLength()];
         for(int i = 0; i < coords.length; i++){
             String row = Character.toString((char)((int)coord.charAt(0) + i));
@@ -173,7 +173,7 @@ public class PlayerBoard{
         }
         return coords;
     }
-    public void addCoordsToOccupiedList(String[] coords){
+    private void addCoordsToOccupiedList(String[] coords){
         for(String c: coords){
             occupiedSpaces.add(c);
         }
