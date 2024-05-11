@@ -31,9 +31,9 @@ public class Battleship{
             gameOver = (player1.getAllShipsSunk() || player2.getAllShipsSunk());
         }
         if(player1.getAllShipsSunk()){
-            System.out.println("Player One won!");
-        }else{
             System.out.println("Player Two won!");
+        }else{
+            System.out.println("Player One won!");
         }
     }
     public void setBoardSize()throws Exception{
@@ -51,9 +51,11 @@ public class Battleship{
     public void setupShips(PlayerBoard player)throws Exception{
         String input = "";
         boolean progressFurther = false;
+        System.out.println("Game notes:");
         System.out.println("Coordinates should be in the following format: Letter-Number");
         System.out.println("Enter a space followed by a V to position your ship vertically.");
         System.out.println("Enter a space followed by a H to position your ship horizontally.");
+        System.out.printf("%s, please setup your ships.\n", player.getName());
         System.out.println("Ex:   A-1 H");
         for(int i = 0; i < player.getNumShips(); i++){
             do{
@@ -77,7 +79,7 @@ public class Battleship{
                     progressFurther = true;
                 }
                 PlayerBoard.printOcean(player.getOcean());
-                time.wait(1);
+                time.sleep(1);
             }while(!progressFurther);
         }
     }

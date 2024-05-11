@@ -2,8 +2,10 @@ import java.util.HashSet;
 
 public class PlayerBoard{
     private static int oceanDimension;
-    private static char oceanMarker = '∽';
-    private static char opponentOceanMarker = '∽';
+    private static final char oceanMarker = '-';
+    private static final char opponentOceanMarker = '-';
+    private static final char hitMarker = '!';
+    private static final char missMarker = '~';
     private String name;
     private char[][] ocean;
     private char[][] viewOfOpponentOcean;
@@ -19,7 +21,7 @@ public class PlayerBoard{
             new Ship(3, "Submarine"),
             new Ship(3, "Cruiser"),
             new Ship(4, "Battleship"),
-            new Ship(5, "Carrier") 
+            new Ship(5, "Carrier")
         };
         setOcean(oceanMarker);
         setViewOfOpponentsOcean(opponentOceanMarker);
@@ -186,7 +188,7 @@ public class PlayerBoard{
         return occupiedSpaces.contains(coord);
     }
     public void updateViewOfOpponentsBoard(PlayerBoard opponent, String coord, boolean hitShip){
-        char marker = hitShip? '!':'-';
+        char marker = hitShip? hitMarker:missMarker;
         int r = Character.getNumericValue(coord.charAt(0) - 17);
         int c = Character.getNumericValue(coord.charAt(2));
         viewOfOpponentOcean[r][c] = marker;
