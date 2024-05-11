@@ -73,7 +73,7 @@ public class Battleship{
                         printShipPlacementGameNotes();
                     }
                     printShipPlacementUI(player, i);
-                    input = br.readLine();
+                    input = br.readLine().toUpperCase();
                     progressFurther = isValidCoordOrientation(input);
                     isFirstAttemptAtPlacingShip = false;
                 }while(!progressFurther);
@@ -122,7 +122,7 @@ public class Battleship{
                     printCoordSelectionGameNotes();
                 }
                 printCoordSelectionUI(player);
-                input = br.readLine();
+                input = br.readLine().toUpperCase();
                 progressFurther = PlayerBoard.isValidCoord(input);
                 isFirstCoordinate = false;
             }while(!progressFurther);
