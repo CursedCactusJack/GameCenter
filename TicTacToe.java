@@ -50,7 +50,7 @@ public class TicTacToe{
     }
 
     private void printBoard(){
-        for(int i = 0; i < 50; i++)System.out.println();
+        GameCenter.printSpace();
         int boardSquare = 1;
         for(String [] row: gameBoard){
             for(String box: row){
@@ -63,7 +63,7 @@ public class TicTacToe{
     }
 
     private boolean validImput(String imput){
-        return imput.matches("[1-9]") && !spacesTaken.contains(imput);
+        return imput.matches("[1-9]{1}") && !spacesTaken.contains(imput);
     }
 
     private void replaceOnBoard(int num){

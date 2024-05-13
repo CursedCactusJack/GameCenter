@@ -23,7 +23,7 @@ public class Hangman{
     }
 
     public void startGame() throws Exception{
-        drawSpace();
+        GameCenter.printSpace();
         System.out.println("Enter the hangman phrase:");
         //make formatPhrases()
         phrase = br.readLine().toUpperCase().trim();
@@ -43,7 +43,7 @@ public class Hangman{
                 }catch(InterruptedException e){
                     System.out.println("Interrupted lol");
                 }
-                drawSpace();
+                GameCenter.printSpace();
                 if(!gameWon && !gameLost){
                     System.out.println("Would you like to guess the phrase?\nType \"yes\" or \"no\"");
                     if(br.readLine().toUpperCase().matches("YES")){
@@ -53,7 +53,7 @@ public class Hangman{
                         if(userGuess.matches(phrase)){
                             gameWon = true;
                         }else{
-                            drawSpace();
+                            GameCenter.printSpace();
                             System.out.println("\nNot quite!");
                             try{
                                 time.sleep(1);
@@ -69,13 +69,9 @@ public class Hangman{
     }
     
     private void printSpaceHangmanEmptyPhraseRightWrongLetters(){
-        drawSpace();
+        GameCenter.printSpace();
         drawHangman(lettersWrong.length());
         printEmptyPhraseLettersRightWrong();
-    }
-    
-    private void drawSpace(){
-        for(int i = 0; i < 50; i++)System.out.println("");
     }
     
     private void drawHangman(int numLettersWrong){

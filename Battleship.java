@@ -20,26 +20,26 @@ public class Battleship{
         setBoardSize();
         this.player1 = new PlayerBoard("Player One");
         this.player2 = new PlayerBoard("Player Two");
-        GameHub.printSpace();
+        GameCenter.printSpace();
         continueScreen(player1);
         setupShips(player1);
-        GameHub.printSpace();
+        GameCenter.printSpace();
         continueScreen(player2);
         setupShips(player2);
         while(!gameOver){
             ++turn;
             if(turn%2 == 1){
-                GameHub.printSpace();
+                GameCenter.printSpace();
                 continueScreen(player1);
                 play(player1, player2);
             }else{
-                GameHub.printSpace();
+                GameCenter.printSpace();
                 continueScreen(player2);
                 play(player2, player1);
             }
             gameOver = (player1.getAllShipsSunk() || player2.getAllShipsSunk());
         }
-        GameHub.printSpace();
+        GameCenter.printSpace();
         if(player1.getAllShipsSunk()){
             System.out.println("Player Two won!");
         }else{
@@ -51,7 +51,7 @@ public class Battleship{
         String input = "";
         boolean validDimension = false;
         do{
-            GameHub.printSpace();
+            GameCenter.printSpace();
             System.out.println("Enter a value between 6 and 8 for the size of the board:");
             input = br.readLine();
             validDimension = input.matches("[6-8]{1}");
@@ -68,7 +68,7 @@ public class Battleship{
         for(int i = 0; i < player.getNumShips(); i++){
             do{
                 do{
-                    GameHub.printSpace();
+                    GameCenter.printSpace();
                     if(!isFirstAttemptAtPlacingShip){
                         printShipPlacementGameNotes();
                     }
@@ -89,7 +89,7 @@ public class Battleship{
                     player.placeShipVertically(player.getShipAt(i), coord);
                     progressFurther = true;
                 }
-                GameHub.printSpace();
+                GameCenter.printSpace();
                 PlayerBoard.printOcean(player.getOcean());
                 System.out.println();
                 System.out.println();
@@ -117,7 +117,7 @@ public class Battleship{
 
         do{
             do{
-                GameHub.printSpace();
+                GameCenter.printSpace();
                 if(!isFirstCoordinate){
                     printCoordSelectionGameNotes();
                 }
@@ -131,7 +131,7 @@ public class Battleship{
                 boolean hitShip = opponent.hitShip(input);
                 player.updateViewOfOpponentsBoard(opponent, input, hitShip);
                 player.addCoordsToUsedList(input);
-                GameHub.printSpace();
+                GameCenter.printSpace();
                 PlayerBoard.printOcean(player.getViewOfOpponentsOcean());
                 System.out.println();
                 if(hitShip){
