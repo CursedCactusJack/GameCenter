@@ -10,6 +10,7 @@ public class Hangman{
     private boolean gameWon;
     private boolean gameLost;
     private BufferedReader br;
+    private static final TimeUnit time = TimeUnit.SECONDS;
 
     public Hangman(BufferedReader br){
         hangman = "  __\n |  |\n    |\n    |\n    |\n    |\n____|__";
@@ -37,12 +38,7 @@ public class Hangman{
 
             if(!gameWon){
                 printSpaceHangmanEmptyPhraseRightWrongLetters();
-                TimeUnit time = TimeUnit.SECONDS;
-                try{
-                    time.sleep(1);
-                }catch(InterruptedException e){
-                    System.out.println("Interrupted lol");
-                }
+                time.sleep(1);
                 GameCenter.printSpace();
                 if(!gameWon && !gameLost){
                     System.out.println("Would you like to guess the phrase?\nType \"yes\" or \"no\"");
@@ -65,6 +61,7 @@ public class Hangman{
                 }
             }
             gameStatus();
+            time.sleep(3);
         }
     }
     
