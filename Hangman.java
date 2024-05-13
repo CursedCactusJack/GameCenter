@@ -24,15 +24,28 @@ public class Hangman{
     }
 
     public void startGame() throws Exception{
-        GameCenter.printSpace();
-        System.out.println("Enter the hangman phrase:");
+        boolean isValidInput = false;
+        String input = "";
+        do{
+            GameCenter.printSpace();
+            System.out.println("Enter the hangman phrase:");
+            input = br.readLine().toUpperCase().trim();
+            isValidInput = (input.length() > 0);
+        }while(!isValidInput);
+        isValidInput = false;
+        phrase = input;
+
         //make formatPhrases()
-        phrase = br.readLine().toUpperCase().trim();
         emptyPhrase = phrase.replaceAll("[A-Za-z]","_");
-        
         while(!gameWon && !gameLost){
-            printSpaceHangmanEmptyPhraseRightWrongLetters();
-            String letter = br.readLine().substring(0,1).toUpperCase();
+            do{
+                printSpaceHangmanEmptyPhraseRightWrongLetters();
+                input = br.readLine();
+                isValidInput = isValidInput(input);
+            }while(!isValidInput);
+            String letter = input.substring(0,1).toUpperCase();
+            isValidInput = false;
+
             //check for alphabetic imput
             updateEmptyPhrase(letter);
 
@@ -51,11 +64,7 @@ public class Hangman{
                         }else{
                             GameCenter.printSpace();
                             System.out.println("\nNot quite!");
-                            try{
-                                time.sleep(1);
-                            }catch(Exception e){
-                                System.out.println("Interrupted lol");
-                            }
+                            time.sleep(1);
                         }
                     }
                 }
@@ -65,6 +74,10 @@ public class Hangman{
         time.sleep(3);
     }
     
+    private boolean isValidInput(String input){
+        return input.matches("[A-Za-z]{1}");
+    }
+
     private void printSpaceHangmanEmptyPhraseRightWrongLetters(){
         GameCenter.printSpace();
         drawHangman(lettersWrong.length());
