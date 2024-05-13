@@ -173,10 +173,10 @@ public class Battleship{
 
 class PlayerBoard{
     private static int oceanDimension;
-    private static final char oceanMarker = '-';
-    private static final char opponentOceanMarker = '-';
+    private static final char oceanMarker = '~';
+    private static final char opponentOceanMarker = '#';
     private static final char hitMarker = '!';
-    private static final char missMarker = '~';
+    private static final char missMarker = '-';
     private String name;
     private char[][] ocean;
     private char[][] viewOfOpponentOcean;
@@ -373,18 +373,26 @@ class PlayerBoard{
         }
     }
     public static void printOcean(char[][] ocean){
-        System.out.print(" ");
+        StringBuffer sb = new StringBuffer();
+        sb.append(" ");
         for(int i = 0; i < oceanDimension; i++){
-            System.out.print(i);
-        }
-        System.out.println();
-        for(int i = 0; i < ocean.length; i++){
-            System.out.print((char)(65+i));
-            for(int j = 0; j < ocean.length; j++){
-                System.out.print(ocean[i][j]);
+            if(i < oceanDimension - 1){
+                sb.append("| " + i + " ");
+            }else{
+                sb.append("| " + i + " |\n");
             }
-            System.out.println();
         }
+        for(int i = 0; i < ocean.length; i++){
+            sb.append((char)(65+i));
+            for(int j = 0; j < ocean.length; j++){
+                if(j < oceanDimension - 1){
+                    sb.append("| " + ocean[i][j] + " ");
+                }else{
+                    sb.append("| " + ocean[i][j] + " |\n");
+                }
+            }
+        }
+        System.out.println(sb);
     }
     public void updateGameStatus(){
         boolean allShipsSunk = true;
