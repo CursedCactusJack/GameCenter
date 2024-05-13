@@ -61,8 +61,8 @@ public class Hangman{
                 }
             }
             gameStatus();
-            time.sleep(3);
         }
+        time.sleep(3);
     }
     
     private void printSpaceHangmanEmptyPhraseRightWrongLetters(){

@@ -71,11 +71,7 @@ public class GameCenter{
     }
 
     public static void printSpace(){
-        StringBuffer sb = new StringBuffer();
-        for(int i = 0; i < 50; i++){
-            sb.append("\n");
-        }
-        System.out.println(sb);
+        System.out.print("\033\143");
     }
     private static void printGameSelectionGameNotes(){
         System.out.println("Game Notes:");
