@@ -187,11 +187,11 @@ class PlayerBoard{
     public PlayerBoard(String playerName){
         setName(playerName);
         ships = new Ship[]{
-            new Ship(2, "Destroyer")/*,
+            new Ship(2, "Destroyer"),
             new Ship(3, "Submarine"),
             new Ship(3, "Cruiser"),
             new Ship(4, "Battleship"),
-            new Ship(5, "Carrier")*/
+            new Ship(5, "Carrier")
         };
         setOcean(oceanMarker);
         setViewOfOpponentsOcean(opponentOceanMarker);
