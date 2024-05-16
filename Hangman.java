@@ -1,7 +1,7 @@
 import java.io.BufferedReader;
 import java.util.concurrent.TimeUnit;
 
-public class Hangman{
+public class Hangman implements Game{
     private String hangman;
     private String phrase;
     private String emptyPhrase;

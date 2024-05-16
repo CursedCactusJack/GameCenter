@@ -2,7 +2,7 @@ import java.io.BufferedReader;
 import java.util.HashSet;
 import java.util.concurrent.TimeUnit;
 
-public class Battleship{
+public class Battleship implements Game{
     private BufferedReader br;
     private PlayerBoard player1;
     private PlayerBoard player2;

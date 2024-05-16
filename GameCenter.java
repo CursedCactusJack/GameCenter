@@ -1,6 +1,5 @@
 /* TODO:
- * GameCenter:
- *      - add Game Interface with public void startGame();
+ * GameCenter: N/A
  * Battleship:
  *      - tell users when they have sank an opponents ship
  * Hangman:
