@@ -7,8 +7,6 @@
  *      - review how input is handled
  * Tic-Tac-Toe:
  *      - review how input is handled
- *      - victory messages
- *      - review how board is drawn
  */
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
