@@ -1,6 +1,6 @@
 import java.io.BufferedReader;
 import java.util.ArrayList;
-import java.util.concurrent.TimeUnit;
+import java.io.IOException;
 
 public class TicTacToe implements Game{
     private BufferedReader br;
@@ -9,7 +9,6 @@ public class TicTacToe implements Game{
     private boolean p1turn;
     private boolean xWon;
     private boolean oWon;
-    private final TimeUnit time = TimeUnit.SECONDS;
 
     public TicTacToe(BufferedReader br){
         spacesTaken = "";
@@ -19,7 +18,7 @@ public class TicTacToe implements Game{
         this.br = br;
     }
 
-    public void startGame() throws Exception{
+    public void startGame()throws IOException{
         while(!(xWon ^ oWon) && spacesTaken.length() != 9){
             String input = "";
             boolean isValidInput = false;
@@ -51,7 +50,7 @@ public class TicTacToe implements Game{
         }else{
             System.out.println("The cat won!!!");
         }
-        time.sleep(3);
+        GameCenter.holdDisplay(3);
     }
 
     private void printBoard(){

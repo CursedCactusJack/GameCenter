@@ -2,16 +2,21 @@
  * GameCenter: N/A
  * Battleship:
  *      - tell users when they have sank an opponents ship
+ *      - review try & catch vs Exceptions
  * Hangman:
  *      - review how input is handled
+ *      - review try & catch vs Exceptions
  * Tic-Tac-Toe:
  *      - review how input is handled
+ *      - review try & catch vs Exceptions
  */
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
+import java.util.concurrent.TimeUnit;
 
 
 public class GameCenter{
+    private static final TimeUnit time = TimeUnit.SECONDS;
     public static void main(String args[])throws Exception{
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         String input = "";
@@ -86,5 +91,13 @@ public class GameCenter{
         System.out.println("Game Notes:");
         System.out.println("Only a number between 1 and 3 inclusive or an \'x\' can be entered.");
         System.out.println();
+    }
+
+    public static void holdDisplay(int seconds){
+        try{
+            time.sleep(seconds);
+        }catch(InterruptedException e){
+            System.out.println("Timer was interrupted.");
+        }
     }
 }

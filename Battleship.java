@@ -1,6 +1,6 @@
 import java.io.BufferedReader;
 import java.util.HashSet;
-import java.util.concurrent.TimeUnit;
+import java.io.IOException;
 
 public class Battleship implements Game{
     private BufferedReader br;
@@ -8,7 +8,6 @@ public class Battleship implements Game{
     private PlayerBoard player2;
     private boolean gameOver;
     private int turn;
-    private final TimeUnit time = TimeUnit.SECONDS;
 
     public Battleship(BufferedReader br){
         this.br = br;
@@ -16,7 +15,7 @@ public class Battleship implements Game{
         turn = 0;
     }
 
-    public void startGame()throws Exception{
+    public void startGame()throws IOException{
         setBoardSize();
         this.player1 = new PlayerBoard("Player One");
         this.player2 = new PlayerBoard("Player Two");
@@ -45,9 +44,9 @@ public class Battleship implements Game{
         }else{
             System.out.println("Player One won!");
         }
-        time.sleep(3);
+        GameCenter.holdDisplay(3);
     }
-    private void setBoardSize()throws Exception{
+    private void setBoardSize()throws IOException{
         String input = "";
         boolean validDimension = false;
         do{
@@ -60,7 +59,7 @@ public class Battleship implements Game{
         int dimension = Integer.parseInt(input);
         PlayerBoard.setOceanDimension(dimension);
     }
-    private void setupShips(PlayerBoard player)throws Exception{
+    private void setupShips(PlayerBoard player)throws IOException{
         String input = "";
         boolean progressFurther = false;
         boolean isFirstAttemptAtPlacingShip = true;
@@ -96,7 +95,7 @@ public class Battleship implements Game{
             }while(!progressFurther);
             isFirstAttemptAtPlacingShip = true;
         }
-        time.sleep(2);
+        GameCenter.holdDisplay(2);
     }
     private boolean isValidCoordOrientation(String s){
         if(!s.contains(" ")){
@@ -110,7 +109,7 @@ public class Battleship implements Game{
             return isValidCoord && containValidOrientation;
         }
     }
-    private void play(PlayerBoard player, PlayerBoard opponent) throws Exception{
+    private void play(PlayerBoard player, PlayerBoard opponent)throws IOException{
         String input = "";
         boolean progressFurther = false;
         boolean isFirstCoordinate = true;
@@ -138,11 +137,11 @@ public class Battleship implements Game{
                     opponent.updateShips(input);
                     opponent.updateGameStatus();
                 }
-                time.sleep(2);
+                GameCenter.holdDisplay(2);
             }
         }while(!progressFurther);
     } 
-    private void continueScreen(PlayerBoard player)throws Exception{
+    private void continueScreen(PlayerBoard player)throws IOException{
         System.out.printf("%s's turn. Please hit enter to continue:", player.getName());
         br.readLine();
     }

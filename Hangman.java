@@ -1,5 +1,5 @@
 import java.io.BufferedReader;
-import java.util.concurrent.TimeUnit;
+import java.io.IOException;
 
 public class Hangman implements Game{
     private String hangman;
@@ -10,7 +10,6 @@ public class Hangman implements Game{
     private boolean gameWon;
     private boolean gameLost;
     private BufferedReader br;
-    private static final TimeUnit time = TimeUnit.SECONDS;
 
     public Hangman(BufferedReader br){
         hangman = "  __\n |  |\n    |\n    |\n    |\n    |\n____|__";
@@ -23,7 +22,7 @@ public class Hangman implements Game{
         this.br = br;
     }
 
-    public void startGame() throws Exception{
+    public void startGame()throws IOException{
         boolean isValidInput = false;
         String input = "";
         do{
@@ -51,7 +50,7 @@ public class Hangman implements Game{
 
             if(!gameWon){
                 printSpaceHangmanEmptyPhraseRightWrongLetters();
-                time.sleep(1);
+                GameCenter.holdDisplay(1);
                 GameCenter.printSpace();
                 if(!gameWon && !gameLost){
                     System.out.println("Would you like to guess the phrase?\nType \"yes\" or \"no\"");
@@ -64,14 +63,14 @@ public class Hangman implements Game{
                         }else{
                             GameCenter.printSpace();
                             System.out.println("\nNot quite!");
-                            time.sleep(1);
+                            GameCenter.holdDisplay(1);
                         }
                     }
                 }
             }
             gameStatus();
         }
-        time.sleep(3);
+        GameCenter.holdDisplay(3);
     }
     
     private boolean isValidInput(String input){
