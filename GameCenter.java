@@ -11,9 +11,10 @@
  *      - review try & catch vs Exceptions
  */
 import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.concurrent.TimeUnit;
-
 
 public class GameCenter{
     private static final TimeUnit time = TimeUnit.SECONDS;
@@ -84,20 +85,29 @@ public class GameCenter{
         gameInstance.startGame();
     }
 
-    public static void printSpace(){
-        System.out.print("\033\143");
-    }
     private static void printGameSelectionGameNotes(){
         System.out.println("Game Notes:");
         System.out.println("Only a number between 1 and 3 inclusive or an \'x\' can be entered.");
         System.out.println();
     }
 
+    public static void printSpace(){
+        System.out.print("\033\143");
+    }
+    
     public static void holdDisplay(int seconds){
+        InputStream in = System.in;
         try{
             time.sleep(seconds);
         }catch(InterruptedException e){
             System.out.println("Timer was interrupted.");
+        }
+        try{
+            while(in.available() > 0){
+                in.read();
+            }
+        }catch(IOException e){
+            System.out.println("Unable to read stream.");
         }
     }
 }
