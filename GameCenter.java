@@ -4,7 +4,6 @@
  *      - tell users when they have sank an opponents ship
  *      - review try & catch vs Exceptions
  * Hangman:
- *      - review how input is handled
  *      - review try & catch vs Exceptions
  * Tic-Tac-Toe:
  *      - review how input is handled

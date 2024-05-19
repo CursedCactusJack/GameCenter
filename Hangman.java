@@ -34,12 +34,11 @@ public class Hangman implements Game{
         isValidInput = false;
         phrase = input;
 
-        //make formatPhrases()
         emptyPhrase = phrase.replaceAll("[A-Za-z]","_");
         while(!gameWon && !gameLost){
             do{
                 printSpaceHangmanEmptyPhraseRightWrongLetters();
-                input = br.readLine();
+                input = br.readLine().toUpperCase().trim();
                 isValidInput = isValidInput(input);
             }while(!isValidInput);
             String letter = input.substring(0,1).toUpperCase();
@@ -74,7 +73,7 @@ public class Hangman implements Game{
     }
     
     private boolean isValidInput(String input){
-        return input.matches("[A-Za-z]{1}");
+        return input.matches("[A-Za-z]{1}") && !lettersRight.contains(input) && !lettersWrong.contains(input);
     }
 
     private void printSpaceHangmanEmptyPhraseRightWrongLetters(){
