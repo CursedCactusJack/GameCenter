@@ -3,7 +3,7 @@
  * Game:            N/A
  * Battleship:      tell users when they have sank an opponents ship
  * Hangman:         N/A - possible rewrite necessary
- * Tic-Tac-Toe:     review how input is handled
+ * Tic-Tac-Toe:     review how input is handled; possible rewrite necessary
  */
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -49,16 +49,20 @@ public class GameCenter{
         return input.matches("[1-3Xx]{1}");
     }
 
-    private static void callGame(BufferedReader br, String input)throws Exception{
+    private static void callGame(BufferedReader br, String input){
+        Game game;
         switch(input){
             case "1":
-                playHangman(br);
+                game = new Hangman(br);
+                game.startGame();
                 break;
             case "2":
-                playTicTacToe(br);
+                game = new TicTacToe(br);
+                game.startGame();
                 break;
             case "3":
-                playBattleship(br);
+                game = new Battleship(br);
+                game.startGame();
                 break;
             case "x":
                 break;
@@ -66,18 +70,6 @@ public class GameCenter{
                 System.out.println("Invalid input. Please try again.");
                 break;
         }
-    }
-    private static void playHangman(BufferedReader br) throws Exception {
-        Hangman gameInstance = new Hangman(br);
-        gameInstance.startGame();
-    }
-    private static void playTicTacToe(BufferedReader br) throws Exception {
-        TicTacToe gameInstance = new TicTacToe(br);
-        gameInstance.startGame();
-    }
-    private static void playBattleship(BufferedReader br) throws Exception {
-        Battleship gameInstance = new Battleship(br);
-        gameInstance.startGame();
     }
 
     private static void printGameSelectionGameNotes(){
