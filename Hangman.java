@@ -1,7 +1,7 @@
 import java.io.BufferedReader;
 import java.io.IOException;
 
-public class Hangman implements Game{
+public class Hangman extends Game{
     private String hangman;
     private String phrase;
     private String emptyPhrase;

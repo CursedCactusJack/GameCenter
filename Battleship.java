@@ -2,7 +2,7 @@ import java.io.BufferedReader;
 import java.util.HashSet;
 import java.io.IOException;
 
-public class Battleship implements Game{
+public class Battleship extends Game{
     private BufferedReader br;
     private PlayerBoard player1;
     private PlayerBoard player2;

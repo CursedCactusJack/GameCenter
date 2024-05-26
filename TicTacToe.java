@@ -2,7 +2,7 @@ import java.io.BufferedReader;
 import java.util.ArrayList;
 import java.io.IOException;
 
-public class TicTacToe implements Game{
+public class TicTacToe extends Game{
     private BufferedReader br;
     private String[][] gameBoard = {{"1","2","3"},{"4","5","6"},{"7","8","9"}};
     private String spacesTaken;

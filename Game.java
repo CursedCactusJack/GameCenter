@@ -1,3 +1,3 @@
-public interface Game{
-    public void startGame() throws Exception;
+public abstract class Game{
+    public abstract void startGame();
 }
