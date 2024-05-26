@@ -18,7 +18,7 @@ public class TicTacToe implements Game{
         this.br = br;
     }
 
-    public void startGame()throws IOException{
+    public void startGame(){
         while(!(xWon ^ oWon) && spacesTaken.length() != 9){
             String input = "";
             boolean isValidInput = false;
@@ -30,7 +30,11 @@ public class TicTacToe implements Game{
                     printNumSelectionGameNotes();
                 }
                 System.out.printf("Player %s,\nEnter a square number:\n", p1turn? "\"O\"":"\"X\"");
-                input = br.readLine();
+                try{
+                    input = br.readLine().trim();
+                }catch(IOException e){
+                    System.out.println("There was an error in reading the line.");
+                }
                 isValidInput = isValidImput(input);
                 isFirstInput = false;
             }while(!isValidInput);

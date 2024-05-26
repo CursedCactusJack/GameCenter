@@ -3,11 +3,9 @@
  * Battleship:
  *      - tell users when they have sank an opponents ship
  *      - review try & catch vs Exceptions
- * Hangman:
- *      - review try & catch vs Exceptions
+ * Hangman: N/A - possible rewrite necessary
  * Tic-Tac-Toe:
  *      - review how input is handled
- *      - review try & catch vs Exceptions
  */
 import java.io.BufferedReader;
 import java.io.IOException;
