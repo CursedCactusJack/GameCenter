@@ -22,13 +22,17 @@ public class Hangman implements Game{
         this.br = br;
     }
 
-    public void startGame()throws IOException{
+    public void startGame(){
         boolean isValidInput = false;
         String input = "";
         do{
             GameCenter.printSpace();
             System.out.println("Enter the hangman phrase:");
-            input = br.readLine().toUpperCase().trim();
+            try{
+                input = br.readLine().toUpperCase().trim();
+            }catch (IOException e){
+                System.out.println("There was an error in reading the line.");
+            }
             isValidInput = (input.length() > 0);
         }while(!isValidInput);
         isValidInput = false;
@@ -38,7 +42,11 @@ public class Hangman implements Game{
         while(!gameWon && !gameLost){
             do{
                 printSpaceHangmanEmptyPhraseRightWrongLetters();
-                input = br.readLine().toUpperCase().trim();
+                try{
+                    input = br.readLine().toUpperCase().trim();
+                }catch (IOException e){
+                    System.out.println("There was an error in reading the line.");
+                }
                 isValidInput = isValidInput(input);
             }while(!isValidInput);
             String letter = input.substring(0,1).toUpperCase();
@@ -53,10 +61,20 @@ public class Hangman implements Game{
                 GameCenter.printSpace();
                 if(!gameWon && !gameLost){
                     System.out.println("Would you like to guess the phrase?\nType \"yes\" or \"no\"");
-                    if(br.readLine().toUpperCase().matches("YES")){
+                    try{
+                        input = br.readLine().toUpperCase().trim();
+                    }catch (IOException e){
+                        System.out.println("There was an error in reading the line.");
+                    }
+                    if(input.matches("YES")){
                         printSpaceHangmanEmptyPhraseRightWrongLetters();
                         System.out.println("Take a guess:");
-                        String userGuess = br.readLine().toUpperCase().trim();
+                        String userGuess = "";
+                        try{
+                            userGuess = br.readLine().toUpperCase().trim();
+                        }catch (IOException e){
+                            System.out.println("There was an error in reading the line.");
+                        }
                         if(userGuess.matches(phrase)){
                             gameWon = true;
                         }else{
