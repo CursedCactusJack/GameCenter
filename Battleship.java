@@ -128,7 +128,7 @@ public class Battleship extends Game{
                 if(!isFirstCoordinate){
                     printCoordSelectionGameNotes();
                 }
-                printCoordSelectionUI(player);
+                printCoordSelectionUI(player, opponent);
                 try{
                     input = br.readLine().toUpperCase().trim();
                 }catch(IOException e){
@@ -166,6 +166,7 @@ public class Battleship extends Game{
             "Game Notes:\n" +
             "Coordinate: made up of a letter, a dash, and a number.\n" +
             "Direction: V or H (for vertical/horizontal placement).\n" + 
+            "Symbol: \'~\' are free spaces, and \'O\''s are occupied spaces.\n" + 
             "Example:     A-1 H\n"
         );
     }
@@ -180,9 +181,25 @@ public class Battleship extends Game{
             "Coordinates should be in the following format: Letter-Number\n"
         );
     }
-    private void printCoordSelectionUI(PlayerBoard player){
+    private void printCoordSelectionUI(PlayerBoard player, PlayerBoard opponent){
         PlayerBoard.printOcean(player.getViewOfOpponentsOcean());
+        printSunkShips(opponent);
         System.out.printf("%s, please enter a coordinate:\n", player.getName());
+    }
+    private void printSunkShips(PlayerBoard opponent){
+        StringBuffer sb = new StringBuffer("Opponent's ships sunk:\n");
+        boolean allShipAfloat = true;
+        for(Ship s: opponent.getShips()){
+            if(s.getIsSunk()){
+                sb.append(s.getName());
+                sb.append("\n");
+                allShipAfloat = false;
+            }
+        }
+        if(allShipAfloat){
+            sb.append("N/A\n");
+        }
+        System.out.println(sb);
     }
 }
 
