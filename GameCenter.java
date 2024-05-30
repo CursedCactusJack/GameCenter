@@ -1,9 +1,9 @@
 /* TODO:
- * GameCenter:      N/A
- * Game:            N/A
- * Battleship:      tell users when they have sank an opponents ship
- * Hangman:         N/A - possible rewrite necessary
- * Tic-Tac-Toe:     review how input is handled; possible rewrite necessary
+ * GameCenter:      Add JavaDocs
+ * Game:            Add JavaDocs
+ * Battleship:      Add JavaDocs
+ * Hangman:         Add JavaDocs - possible rewrite necessary
+ * Tic-Tac-Toe:     Add JavaDocs - review how input is handled; add CPU; possible rewrite necessary
  */
 import java.io.BufferedReader;
 import java.io.IOException;
